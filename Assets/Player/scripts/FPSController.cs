@@ -31,6 +31,7 @@ public class FPSController : MonoBehaviour
 
         p_camQ = s_camera.rotation;
         p_charQ = transform.rotation;
+        
     }
 
     void FixedUpdate()
