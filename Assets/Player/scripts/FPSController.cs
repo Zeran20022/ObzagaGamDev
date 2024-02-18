@@ -23,7 +23,7 @@ public class FPSController : MonoBehaviour
     private Quaternion p_camQ;
     private Quaternion p_charQ;
 
-    // Start is called before the first frame update
+
     void Start()
     {
         s_camera = Camera.main.transform;
@@ -37,12 +37,12 @@ public class FPSController : MonoBehaviour
     {
         p_angelX += Input.GetAxis("Mouse X") * s_sensitivity; 
         p_angleY += Input.GetAxis("Mouse Y") *s_sensitivity;
+        p_angleY = Mathf.Clamp(p_angleY, -90f, 90f);
 
         s_camera.rotation = p_camQ * Quaternion.AngleAxis(p_angelX, Vector3.up) * Quaternion.AngleAxis(p_angleY, Vector3.left);
         transform.rotation = p_charQ = Quaternion.AngleAxis(p_angelX, Vector3.up);
     }
 
-    // Update is called once per frame
     void Update()
     {
         if(p_char.isGrounded)
