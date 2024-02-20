@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (isGrounded && velocity.y < 0 ) 
         {
-            velocity.y = -2f;
+            velocity.y = -5f;
         }
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
@@ -44,7 +44,7 @@ public class PlayerMovement : MonoBehaviour
 
         
 
-        if (isCrouch)
+        if (isCrouch && isGrounded)
         {
             M_speed = M_crouc_speed; 
         }
