@@ -59,21 +59,22 @@ public class PlayerMovement : MonoBehaviour
         
         }
 
-        
+        if (isGrounded)
+        {
 
-        if (isCrouch && isGrounded)
-        {
-            M_speed = M_crouc_speed; 
+            if (isCrouch)
+            {
+                M_speed = M_crouc_speed;
+            }
+            else if (isSprint)
+            {
+                M_speed = M_sprint_speed;
+            }
+            else
+            {
+                M_speed = M_default_speed;
+            }
         }
-        else if (isSprint)
-        {
-            M_speed = M_sprint_speed;
-        }
-        else
-        {
-            M_speed = M_default_speed;
-        }
-
 
         Vector3 move = transform.right * x + transform.forward * y;
         controller.Move(move * M_speed * Time.deltaTime);
