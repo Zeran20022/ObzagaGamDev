@@ -22,6 +22,11 @@ public class PlayerMovement : MonoBehaviour
     bool isCrouch = false;
     bool isSprint = false;
 
+    /* Если захотим убрать возможность изменять траекторию полёта персонажа (1)
+    float x;
+    float y;
+    */
+
     void Update()
     {
         isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
@@ -33,8 +38,20 @@ public class PlayerMovement : MonoBehaviour
         {
             velocity.y = -5f;
         }
+        
         float x = Input.GetAxis("Horizontal");
         float y = Input.GetAxis("Vertical");
+
+
+        /* Если захотим убрать возможность изменять траекторию полёта персонажа (2)
+         if (isGrounded)
+        {
+
+             x = Input.GetAxis("Horizontal");
+             y = Input.GetAxis("Vertical");
+        }
+        
+         */
 
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
