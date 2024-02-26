@@ -14,9 +14,11 @@ public class PlayerMovement : MonoBehaviour
     public float M_sprint_speed = 5f;
     public float M_crouc_speed = 1.25f;
     public float gravity = -9.8f;
-    public float jumpHeight = 3f;
+    public float jumpHeight = 1f;
     Vector3 velocity;
     public float groundDistance = 0.1f;
+
+    private Animator _anim;
 
     bool isGrounded;
     bool isCrouch = false;
@@ -26,6 +28,10 @@ public class PlayerMovement : MonoBehaviour
     float x;
     float y;
     */
+    void Start()
+    {
+        _anim = GetComponent<Animator>();
+    }
 
     void Update()
     {
@@ -85,28 +91,48 @@ public class PlayerMovement : MonoBehaviour
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
-
+            _anim.SetBool("isJump", true);
+        }
+        else
+        {
+            _anim.SetBool("isJump", false);
         }
 
         if (Input.GetKey("left ctrl"))
         {
             controller.height = 0.75f;
-            isCrouch = true; 
+            isCrouch = true;
+            _anim.SetBool("isCrouch", true);
         }
         else 
         { 
             controller.height = 1.75f;
             isCrouch = false;
+            _anim.SetBool("isCrouch", false);
         }
 
         if (Input.GetKey("left shift"))
         {
             isSprint = true;
+            if (Input.GetKey("w"))
+            {
+                _anim.SetBool("isSprint", true);
+            }
+            else 
+            {
+                _anim.SetBool("isSprint", false);
+            }
         }
         else
         {
             isSprint = false;
+            
         }
+        if (Input.GetKey("w"))
+        {
+            _anim.SetBool("isWalk", true);
 
+        }
+        else {_anim.SetBool("isWalk", false); }
     }
 }
