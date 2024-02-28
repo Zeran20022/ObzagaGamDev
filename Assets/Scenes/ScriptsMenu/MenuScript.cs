@@ -17,16 +17,16 @@ public class MenuScript : MonoBehaviour
 
     public void Play()
     {
-        SceneManager.LoadScene("Game");
+        SceneTransition.SwitchToScene("Game");
         //SceneManager.LoadScene("1");
 
     }
-    public void BackMenu()
+    /*public void BackMenu()
     {
         SceneManager.LoadScene("Menu");
         //SceneManager.LoadScene("0");
 
-    }
+    }*/
 
     public void Settings()
     {
@@ -40,8 +40,11 @@ public class MenuScript : MonoBehaviour
     {
         Application.Quit();
     }
-    /*void Update()
+    void Update()
     {
-        
-    }*/
+        if(Input.GetKeyDown(KeyCode.Escape)&&SceneManager.GetActiveScene().name =="Game") 
+        {
+            SceneTransition.SwitchToScene("Menu");
+        }
+    }
 }
