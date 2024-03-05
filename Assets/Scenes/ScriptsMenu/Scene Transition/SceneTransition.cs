@@ -10,43 +10,51 @@ public class SceneTransition : MonoBehaviour
     public Image LoadingProgressBar;
 
     private static SceneTransition instance;
-
     private static bool shouldPlayOpeningAnimation = false;
 
     private Animator componentAnimator;
-
-
     private AsyncOperation loadingSceneOperation;
 
     public static void SwitchToScene(string sceneName)
     {
-        instance.componentAnimator.SetTrigger(name: "SceneClosing");
+        instance.componentAnimator.SetTrigger("scene Closing");
 
         instance.loadingSceneOperation = SceneManager.LoadSceneAsync(sceneName);
-
+        
+        // Чтобы сцена не начала переключаться пока играет анимация closing:
         instance.loadingSceneOperation.allowSceneActivation= false;
+
+        instance.LoadingProgressBar.fillAmount = 0;
     }
 
-
-
-
-    // Start is called before the first frame update
     void Start()
     {
         instance= this;
 
         componentAnimator= GetComponent<Animator>();
 
-        if (shouldPlayOpeningAnimation) componentAnimator.SetTrigger(name: "SceneOpening");
+        if (shouldPlayOpeningAnimation)
+        {
+            componentAnimator.SetTrigger("scene Opening");
+            instance.LoadingProgressBar.fillAmount = 1;
+
+            // Чтобы если следующий переход будет обычным SceneManager.LoadScene, не проигрывать анимацию opening:
+            shouldPlayOpeningAnimation = false;
+        }
     }
 
-    // Update is called once per frame
     void Update()
     {
         if (loadingSceneOperation != null)
         {
-            LoadingPercentage.text = Mathf.RoundToInt(loadingSceneOperation.progress * 100) + "%";
+            LoadingPercentage.text = Mathf.RoundToInt(loadingSceneOperation.progress * 100) + " %";
+            
+            // Просто присвоить прогресс:
             LoadingProgressBar.fillAmount = loadingSceneOperation.progress;
+
+            // Присвоить прогресс с быстрой анимацией, чтобы ощущалось плавнее:
+            LoadingProgressBar.fillAmount = Mathf.Lerp(LoadingProgressBar.fillAmount, loadingSceneOperation.progress,
+                Time.deltaTime * 5);
         }
     }
 
